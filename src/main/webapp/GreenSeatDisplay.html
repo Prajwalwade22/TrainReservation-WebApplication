@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booked Seats</title>
+    <style>
+        body {
+            font-size: 16px;
+            background: black;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: white;
+            color: black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .checkbox-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .agree-checkbox {
+            margin-right: 10px;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 150px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:disabled {
+            background-color: #ccc;
+        }
+
+        .submit-btn:hover:enabled {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Booked Seats</h1>
+    <h2 id="selectedTrain"></h2>
+    <table id="bookedSeatsTable">
+        <thead>
+            <tr>
+                <th>Seat ID</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Booked seats will be appended here -->
+        </tbody>
+    </table>
+
+    <div class="checkbox-container">
+        <input type="checkbox" id="agreeCheckbox" class="agree-checkbox">
+        <label for="agreeCheckbox">I agree, See That Your Seat Must Be Present In Above List</label>
+    </div>
+
+    <button id="submitButton" class="submit-btn" disabled>Submit</button>
+
+    <script>
+        function getStorageKey(key) {
+            var selectedTrain = localStorage.getItem('selectedTrain');
+            return `${key}_${selectedTrain}`;
+        }
+
+        window.onload = function() {
+            var selectedTrain = localStorage.getItem('selectedTrain');
+            if (selectedTrain) {
+                var bookedSeats = localStorage.getItem(getStorageKey('bookedSeats'));
+                var tableBody = document.querySelector('#bookedSeatsTable tbody');
+
+                document.getElementById('selectedTrain').textContent = "Selected Train: " + selectedTrain;
+
+                if (bookedSeats) {
+                    bookedSeats = JSON.parse(bookedSeats);
+                    bookedSeats.forEach(function(seatData) {
+                        var row = document.createElement('tr');
+                        var cellId = document.createElement('td');
+                        cellId.textContent = seatData.id;
+                        var cellPrice = document.createElement('td');
+                        cellPrice.textContent = seatData.price;
+                        row.appendChild(cellId);
+                        row.appendChild(cellPrice);
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    var row = document.createElement('tr');
+                    var cell = document.createElement('td');
+                    cell.textContent = "No seats booked";
+                    cell.setAttribute('colspan', '2');
+                    row.appendChild(cell);
+                    tableBody.appendChild(row);
+                }
+            } else {
+                alert("No train selected. Please book seats first.");
+                window.location.href = 'Greenseat.html'; // Redirect to booking page
+            }
+        };
+
+        document.getElementById('agreeCheckbox').addEventListener('change', function() {
+            var submitButton = document.getElementById('submitButton');
+            submitButton.disabled = !this.checked;
+        });
+
+        document.getElementById('submitButton').addEventListener('click', function() {
+            alert("Your Seat Has Been Booked Successfully! You Can Close The Page");
+            window.close(); // Close the window after displaying the alert
+        });
+    </script>
+</body>
+</html>

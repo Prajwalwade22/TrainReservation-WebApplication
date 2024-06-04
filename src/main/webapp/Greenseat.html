@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Booking Reservation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-size: 16px;
+            background: black;
+        }
+
+        .train {
+            margin: 20px auto;
+            max-width: 300px;
+            background: white;
+            border-top-left-radius: 14%;
+            border-top-right-radius: 14%;
+        }
+
+        .select {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .select h1 {
+            width: 60%;
+            margin: 100px auto 35px auto;
+        }
+
+        .dropdown {
+            width: 60%;
+            margin: 0 auto 20px auto;
+            text-align: center;
+        }
+
+        .dropdown select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown select:hover {
+            background-color: #e0f7fa;
+            border-color: #00796b;
+        }
+
+        .dropdown select:focus {
+            outline: none;
+            box-shadow: 0 0 10px 2px #4CAF50;
+        }
+
+        .exit {
+            height: 50px;
+            position: relative;
+        }
+
+        .exit:before {
+            left: 10px;
+        }
+
+        .exit:after {
+            right: 10px;
+        }
+
+        ol {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .seats {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+        }
+
+        .seat {
+            display: flex;
+            height: 80px;
+            width: 50px;
+            flex: 0 0 14 28%;
+            padding: 5px;
+            position: relative;
+        }
+
+        .seat label {
+            display: block;
+            position: relative;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bolder;
+            line-height: 1.5rem;
+            pad: 4px 0;
+            background: #5bfc60;
+            border-radius: 5px;
+            color: black;
+        }
+
+        .seat label:hover {
+            cursor: pointer;
+            box-shadow: 0 0 0px 2px green;
+        }
+
+        .seat input[type=checkbox] {
+            position: absolute;
+        }
+
+        .seat input[type=checkbox]:checked+label {
+            background: #656e65;
+        }
+
+        .seat:nth-child(3) {
+            margin-right: 14%;
+        }
+
+        .book-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .book-btn:hover {
+            background-color: #45a049;
+        }
+
+        .reset-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .reset-btn:hover {
+            background-color: #e53935;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+
+            .train {
+                width: 90%;
+            }
+
+            .select h1 {
+                margin: 60px auto 20px auto;
+                font-size: 18px;
+            }
+
+            .titles h2 {
+                font-size: 14px;
+            }
+
+            .dropdown select {
+                font-size: 14px;
+            }
+
+            .seat {
+                height: 60px;
+                width: 40px;
+            }
+
+            .seat label {
+                font-size: 12px;
+            }
+
+            .book-btn,
+            .reset-btn {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="train">
+        <div class="select">
+            <h1>Select Train</h1>
+        <div class="titles">
+            <h5>1000 Rupees For 1AC And 700 Rupees For 3AC</h5>
+            <h5>300 Rupees For Sleeper</h5>
+        </div>
+    </div>
+            <div class="dropdown">
+                <select id="trainSelect" onchange="handleTrainChange()">  
+                    <option value="11039-Maharashtra Express">11039-Maharashtra Express</option>
+                    <option value="18029-Shalimar Express">18029-Shalimar Express</option>
+                    <option value="12859-Gitanjali SuperFast Express">12859-Gitanjali SuperFast Express</option>
+                </select>
+            </div>
+        <ol class="cabin">
+            <li>
+                <ol class="seats" type="A">
+                    <li class="seat">
+                        <input type="checkbox" id="1A" data-price="1000">
+                        <label for="1A">1L</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="2A" data-price="1000">
+                        <label for="2A">1M</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="3A" data-price="1000">
+                        <label for="3A">1U</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="4A" data-price="1000">
+                        <label for="4A">1D</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="5A" data-price="1000">
+                        <label for="5A">1E</label>
+                    </li>
+                </ol>
+            </li>
+            <li>
+                <ol class="seats" type="B">
+                    <li class="seat">
+                        <input type="checkbox" id="1B" data-price="1000">
+                        <label for="1B">2L</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="2B" data-price="1000">
+                        <label for="2B">2M</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="3B" data-price="1000">
+                        <label for="3B">2U</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="4B" data-price="1000">
+                        <label for="4B">2D</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="5B" data-price="1000">
+                        <label for="5B">2E</label>
+                    </li>
+                </ol>
+            </li>
+            <li>
+                <ol class="seats" type="C">
+                    <li class="seat">
+                        <input type="checkbox" id="1C" data-price="700">
+                        <label for="1C">3L</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="2C" data-price="700">
+                        <label for="2C">3M</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="3C" data-price="700">
+                        <label for="3C">3U</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="4C" data-price="700">
+                        <label for="4C">3D</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="5C" data-price="700">
+                        <label for="5C">3E</label>
+                    </li>
+                </ol>
+            </li>
+            <li>
+                <ol class="seats" type="D">
+                    <li class="seat">
+                        <input type="checkbox" id="1D" data-price="700">
+                        <label for="1D">4L</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="2D" data-price="700">
+                        <label for="2D">4M</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="3D" data-price="700">
+                        <label for="3D">4U</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="4D" data-price="700">
+                        <label for="4D">4D</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="5D" data-price="700">
+                        <label for="5D">4E</label>
+                    </li>
+                </ol>
+            </li>
+            <li>
+                <ol class="seats" type="E">
+                    <li class="seat">
+                        <input type="checkbox" id="1E" data-price="300">
+                        <label for="1E">5L</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="2E" data-price="300">
+                        <label for="2E">5M</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="3E" data-price="300">
+                        <label for="3E">5U</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="4E" data-price="300">
+                        <label for="4E">5D</label>
+                    </li>
+                    <li class="seat">
+                        <input type="checkbox" id="5E" data-price="300">
+                        <label for="5E">5E</label>
+                    </li>
+                </ol>
+            </li>
+            <ol class="seats" type="F">
+                <li class="seat">
+                    <input type="checkbox" id="1F" data-price="300">
+                    <label for="1F">6L</label>
+                </li>
+                <li class="seat">
+                    <input type="checkbox" id="2F" data-price="300">
+                    <label for="2F">6M</label>
+                </li>
+                <li class="seat">
+                    <input type="checkbox" id="3F" data-price="300">
+                    <label for="3F">6U</label>
+                </li>
+                <li class="seat">
+                    <input type="checkbox" id="4F" data-price="300">
+                    <label for="4F">6F</label>
+                </li>
+                <li class="seat">
+                    <input type="checkbox" id="5F" data-price="300">
+                    <label for="5F">6F</label>
+                </li>
+            </ol>
+        </li>
+        <li>
+            <ol class="seats" type="G">
+                <li class="seat">
+                    <input type="checkbox" id="1G" data-price="300">
+                    <label for="1G">7L</label>
+                </li>
+                <li class="seat">
+                    <input type="checkbox" id="2G" data-price="300">
+                    <label for="2G">7M</label>
+                </li>
+                <li class="seat">
+                    <input type="checkbox" id="3G" data-price="300">
+                    <label for="3G">7U</label>
+                </li>
+                <li class="seat">
+                    <input type="checkbox" id="4G" data-price="300">
+                    <label for="4G">7G</label>
+                </li>
+                <li class="seat">
+                    <input type="checkbox" id="5G" data-price="300">
+                    <label for="5G">7G</label>
+                </li>
+            </ol>
+        </li>
+        </ol>
+        <button class="book-btn" onclick="bookSeats()">Book Selected Seats</button>
+        <button class="reset-btn" onclick="resetSeats()">Reset</button>
+    </div>
+
+    <script>
+        function getStorageKey(key) {
+            var selectedTrain = document.getElementById('trainSelect').value;
+            return `${key}_${selectedTrain}`;
+        }
+
+        function handleTrainChange() {
+            var selectedTrain = document.getElementById('trainSelect').value;
+            localStorage.setItem('selectedTrain', selectedTrain);
+            window.location.reload(); // Reload the page to load previously booked seats for the selected train
+        }
+
+        function bookSeats() {
+            var checkedSeats = document.querySelectorAll('input[type="checkbox"]:checked');
+            var bookedSeats = [];
+            checkedSeats.forEach(function(seat) {
+                var seatData = {
+                    id: seat.id,
+                    price: seat.dataset.price
+                };
+                bookedSeats.push(seatData);
+            });
+
+            var selectedTrain = document.getElementById('trainSelect').value;
+            localStorage.setItem(getStorageKey('selectedTrain'), selectedTrain);
+            localStorage.setItem(getStorageKey('bookedSeats'), JSON.stringify(bookedSeats));
+
+            alert("Seats booked successfully!");
+            window.location.href = 'GreenSeatDisplay.html';
+        }
+
+        function resetSeats() {
+            var selectedTrain = document.getElementById('trainSelect').value;
+            localStorage.removeItem(getStorageKey('bookedSeats'));
+            localStorage.removeItem(getStorageKey('selectedTrain'));
+            window.location.reload();
+        }
+
+        window.onload = function() {
+            var selectedTrain = localStorage.getItem('selectedTrain');
+            if (selectedTrain) {
+                document.getElementById('trainSelect').value = selectedTrain;
+                var bookedSeats = localStorage.getItem(getStorageKey('bookedSeats'));
+                if (bookedSeats) {
+                    bookedSeats = JSON.parse(bookedSeats);
+                    bookedSeats.forEach(function(seatData) {
+                        var seatCheckbox = document.getElementById(seatData.id);
+                        if (seatCheckbox) {
+                            seatCheckbox.checked = true;
+                        }
+                    });
+                }
+            }
+        };
+    </script>
+</body>
+</html>
